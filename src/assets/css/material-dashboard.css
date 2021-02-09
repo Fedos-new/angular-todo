@@ -18534,7 +18534,7 @@ Copyright (c) 2015 Daniel Eden
   -moz-transition: background-color .2s linear, opacity .2s linear;
   transition: background-color .2s linear, opacity .2s linear;
   right: 0;
-  /* there must be 'right' for ps-scrollbar-y-rail */
+  /* there must be 'right' for ps-scrollbar-Categories-rail */
   width: 15px;
 }
 
@@ -18552,7 +18552,7 @@ Copyright (c) 2015 Daniel Eden
   transition: background-color .2s linear, height .2s linear, width .2s ease-in-out, border-radius .2s ease-in-out;
   transition: background-color .2s linear, height .2s linear, width .2s ease-in-out, border-radius .2s ease-in-out, -webkit-border-radius .2s ease-in-out, -moz-border-radius .2s ease-in-out;
   right: 2px;
-  /* there must be 'right' for ps-scrollbar-y */
+  /* there must be 'right' for ps-scrollbar-Categories */
   width: 6px;
 }
 
