@@ -3,11 +3,13 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { CategoriesComponent } from './views/Categories/categories.component';
+import { TasksComponent } from './views/Tasks/tasks.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    TasksComponent
   ],
   imports: [
     BrowserModule
