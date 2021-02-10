@@ -6,3 +6,29 @@
 .novalue {
   color: #b7b7b7;
 }
+.col-color {
+  width: 1% !important;
+}
+
+.col-id {
+  width: 4%;
+  text-align: center;
+}
+.col-date {
+  width: 10% !important;
+}
+.col-category {
+  width: 10% !important;
+}
+.col-priority {
+  width: 10% !important;
+}
+.col-title {
+  width: 40%;
+}
+.col-select {
+  width: 3%;
+}
+.col-operations {
+  width: 8%;
+}
