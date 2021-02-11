@@ -2,7 +2,7 @@
   <div class="card-header card-header-warning">
     <h4 class="card-title">Список задач</h4>
   </div>
-  <div class="card-body table-responsive" *ngIf="tasks.length > 0">
+  <div class="card-body table-responsive" *ngIf="tasks && tasks.length > 0">
 
     <table [dataSource]="dataSource" mat-table matSort>
 
@@ -26,9 +26,12 @@
 
 
       <!-- название задачи-->
-      <ng-container matColumnDef="title">
+      <ng-container matColumnDef="title" >
         <th *matHeaderCellDef mat-header-cell mat-sort-header> Название</th>
-        <td class="col-title" *matCellDef="let task" [class.completed]="task.completed" mat-cell>
+        <td class="col-title pointer"
+            *matCellDef="let task" [class.completed]="task.completed"
+            (click)="onClickTask(task)"
+            mat-cell>
 
           {{task.title}}
 
@@ -92,5 +95,5 @@
     </mat-paginator>
 
   </div>
-  <div *ngIf="tasks.length == 0" class="not-found">Нет данных</div>
+  <div *ngIf="tasks && tasks.length == 0" class="not-found">Нет данных</div>
 </div>
