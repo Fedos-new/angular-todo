@@ -14,8 +14,8 @@ import {MatSort} from '@angular/material/sort';
 export class TasksComponent implements OnInit, AfterViewInit {
 
   // поля для таблицы (те, что отображают данные из задачи - должны совпадать с названиями переменных класса)
-  displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category'];
-  dataSource: MatTableDataSource<Task>; // контейнер - источник данных для таблицы
+  private displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category'];
+  private dataSource: MatTableDataSource<Task>; // контейнер - источник данных для таблицы
 
   // ссылки на компоненты таблицы
   @ViewChild(MatPaginator, {static: false}) private paginator: MatPaginator;
@@ -28,7 +28,7 @@ export class TasksComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.dataHandler.taskSubject.subscribe(task => this.tasks = task);
+    this.dataHandler.getAllTasks().subscribe(task => this.tasks = task);
 
     // датасорс обязательно нужно создавать для таблицы, в него присваивается любой источник (БД, массивы, JSON и пр.)
     this.dataSource = new MatTableDataSource();
