@@ -1,9 +1,11 @@
-import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
+import {EventEmitter, Output } from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+
+import {Task} from 'src/app/model/Task';
 import {DataHandlerService} from '../../service/data-handler.service';
-import {Task} from '../../model/Task';
-import {MatTableDataSource} from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
 
 
 @Component({
@@ -11,7 +13,8 @@ import {MatSort} from '@angular/material/sort';
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css']
 })
-export class TasksComponent implements OnInit, AfterViewInit {
+export class TasksComponent implements OnInit {
+
 
   // поля для таблицы (те, что отображают данные из задачи - должны совпадать с названиями переменных класса)
   private displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category'];
@@ -21,24 +24,31 @@ export class TasksComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, {static: false}) private paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) private sort: MatSort;
 
-
   tasks: Task[];
+  @Output()
+  updateTask = new EventEmitter<Task>();
+
+  @Input('tasks')
+  private set setTasks(tasks: Task[]) { // присваем значение только через @Input
+    this.tasks = tasks;
+    this.fillTable();
+  }
+
 
   constructor(private dataHandler: DataHandlerService) {
   }
 
   ngOnInit(): void {
-    this.dataHandler.getAllTasks().subscribe(task => this.tasks = task);
+    // this.dataHandler.getAllTasks().subscribe(task => this.tasks = task);
 
     // датасорс обязательно нужно создавать для таблицы, в него присваивается любой источник (БД, массивы, JSON и пр.)
     this.dataSource = new MatTableDataSource();
-
-    this.refreshTable();
+    this.fillTable(); // заполняем таблицу служебныим данными(задачи) и всеми методанными
   }
 
-  ngAfterViewInit(): void {
-    this.addTableObjects();
-  }
+  // ngAfterViewInit(): void {
+  //   this.addTableObjects();
+  // }
 
   toggleClassCompleted(task: Task): void {
     task.completed = !task.completed;
@@ -61,7 +71,11 @@ export class TasksComponent implements OnInit, AfterViewInit {
   }
 
   // показывает задачи с применением всех текущий условий (категория, поиск, фильтры и пр.)
-  private refreshTable(): void {
+  private fillTable(): void {
+
+    if (!this.dataSource) {
+      return;
+    }
 
     this.dataSource.data = this.tasks; // обновить источник данных (т.к. данные массива tasks обновились)
     this.addTableObjects();
@@ -87,6 +101,11 @@ export class TasksComponent implements OnInit, AfterViewInit {
   private addTableObjects(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+  }
+  onClickTask(task: Task): void {
+    this.updateTask.emit(task);
+
+
   }
 
 }
