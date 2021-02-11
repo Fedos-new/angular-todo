@@ -47,15 +47,17 @@ export class TaskDAOArray implements TaskDAO{
     let allTasks = TestData.tasks;
 
     if (category != null) {
-      allTasks = allTasks.filter(todo => todo.category);
+      allTasks = allTasks.filter(todo => todo.category === category);
     }
 
     return allTasks;
   }
 
 
-  update(T): Observable<Task> {
-    return undefined;
+  update(task: Task): Observable<Task> {
+    const taskTmp = TestData.tasks.find( t => t.id === task.id); // обновляем по id
+    TestData.tasks.splice(TestData.tasks.indexOf(taskTmp), 1, task);
+    return of(task);
   }
 
 }

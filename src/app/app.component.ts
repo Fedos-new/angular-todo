@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { Category } from './model/Category';
+import {Category} from './model/Category';
 import {Task} from './model/Task';
 import {DataHandlerService} from './service/data-handler.service';
 
@@ -27,6 +27,7 @@ export class AppComponent implements OnInit {
     this.onSelectCategory(null);
     this.onUpdateTask(null);
   }
+
   // изменение категории
   onSelectCategory(category: Category): void {
     this.selectedCategory = category;
@@ -40,8 +41,19 @@ export class AppComponent implements OnInit {
       this.tasks = tasks;
     });
   }
+
   onUpdateTask(task: Task): void {
-    console.log(task);
+
+    this.dataHandler.updateTask(task).subscribe(() => {
+      this.dataHandler.searchTasks(
+        this.selectedCategory,
+        null,
+        null,
+        null,
+      ).subscribe(tasks => {
+        this.tasks = tasks;
+      });
+    });
   }
 }
 

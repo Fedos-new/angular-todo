@@ -9,6 +9,15 @@
   color: rgba(74, 74, 74, 0.98);
   text-align: center;
 }
+
 .pointer {
   cursor: pointer;
+}
+
+.size25 {
+  font-size: 25px !important;
+}
+
+button {
+  outline: none !important;
 }
