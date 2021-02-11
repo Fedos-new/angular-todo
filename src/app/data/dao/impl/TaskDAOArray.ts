@@ -41,6 +41,7 @@ export class TaskDAOArray implements TaskDAO{
   search(category: Category, searchText: string, status: boolean, priority: Priority): Observable<Task[]> {
     return of(this.searchTasks(category, searchText, status, priority));
   }
+
   searchTasks(category: Category, searchText: string, status: boolean, priority: Priority): Task[] {
 
     let allTasks = TestData.tasks;
@@ -51,6 +52,7 @@ export class TaskDAOArray implements TaskDAO{
 
     return allTasks;
   }
+
 
   update(T): Observable<Task> {
     return undefined;

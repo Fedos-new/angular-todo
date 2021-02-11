@@ -13,6 +13,7 @@
             mat-cell></td>
       </ng-container>
 
+
       <!-- нумерация-->
       <ng-container matColumnDef="id">
         <th *matHeaderCellDef mat-header-cell></th>
@@ -45,7 +46,7 @@
             class="col-date"
             mat-cell>
 
-          {{task.date ? (task.date | date: "medium") : "Без даты"}}
+          {{task.date ? (task.date | date: "short") : "Без даты"}}
 
         </td>
       </ng-container>
@@ -86,8 +87,10 @@
 
     </table>
 
-    <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
-
+    <mat-paginator [length]="100"
+                   [pageSize]="10"
+                   [pageSizeOptions]="[5, 10, 25, 100]"> showFistLastButtons>
+    </mat-paginator>
 
   </div>
 

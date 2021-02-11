@@ -1,11 +1,10 @@
-import {EventEmitter, Output } from '@angular/core';
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-
-import {Task} from 'src/app/model/Task';
+import {Component, OnInit, ViewChild, Output, EventEmitter} from '@angular/core';
 import {DataHandlerService} from '../../service/data-handler.service';
+import {Task} from '../../model/Task';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import { Input } from '@angular/core';
 
 
 @Component({
@@ -104,8 +103,6 @@ export class TasksComponent implements OnInit {
   }
   onClickTask(task: Task): void {
     this.updateTask.emit(task);
-
-
   }
 
 }
