@@ -14,7 +14,6 @@ export class AppComponent implements OnInit {
   tasks: Task[];
   categories: Category[];
   selectedCategory: Category = null;
-  task: Task;
 
   constructor(
     private dataHandler: DataHandlerService
@@ -26,6 +25,7 @@ export class AppComponent implements OnInit {
     this.dataHandler.getAllCategories().subscribe(categories => this.categories = categories);
     this.onSelectCategory(null);
     this.onUpdateTask(null);
+    this.onDeleteTask(null);
   }
 
   // изменение категории
@@ -55,6 +55,21 @@ export class AppComponent implements OnInit {
       });
     });
   }
+
+  onDeleteTask(task: Task): void {
+
+    this.dataHandler.deleteTask(task.id).subscribe(() => {
+      this.dataHandler.searchTasks(
+        this.selectedCategory,
+        null,
+        null,
+        null,
+      ).subscribe(tasks => {
+        this.tasks = tasks;
+      });
+    });
+  }
+
 }
 
 

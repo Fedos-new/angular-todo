@@ -28,6 +28,8 @@ export class TasksComponent implements OnInit {
   tasks: Task[];
   @Output()
   updateTask = new EventEmitter<Task>();
+  @Output()
+  deleteTask = new EventEmitter<Task>();
 
   @Input('tasks')
   private set setTasks(tasks: Task[]) { // присваем значение только через @Input
@@ -114,6 +116,20 @@ export class TasksComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       // обработка результатов
+      if (result === 'complete') {
+        task.completed = true;
+        this.updateTask.emit(task);
+        return;
+      }
+      if (result === 'activate') {
+        task.completed = false;
+        this.updateTask.emit(task);
+        return;
+      }
+      if (result === 'delete') {
+        this.deleteTask.emit(task);
+        return;
+      }
       if (result as Task) { // если нажали ок и есть результат
         this.updateTask.emit(task);
         return;

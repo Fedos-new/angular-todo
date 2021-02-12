@@ -27,6 +27,29 @@
 
   </mat-form-field>
 
+  <!--    выпадающий список категорий-->
+  <mat-form-field>
+    <mat-label>Укажите категорию</mat-label>
+
+    <mat-select [(ngModel)]="tmpCategory">
+      <mat-option [value]="null">Без категории</mat-option>
+      <mat-option *ngFor="let cat of categories" [value]="cat">
+        {{cat.title}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!--    выпадающий список приоритетов-->
+  <mat-form-field>
+    <mat-label>Укажите приоритет</mat-label>
+
+    <mat-select [(ngModel)]="tmpPriority">
+      <mat-option [value]="null">Без приоритета</mat-option>
+      <mat-option *ngFor="let pr of priorities" [value]="pr">
+        {{pr.title}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 
 </mat-dialog-content>
 
@@ -34,15 +57,42 @@
 <!--  кнопки возможных действий-->
 <mat-dialog-actions>
 
-  <button
-    (click)="onConfirm()" [disabled]="inputTitle.value.trim().length==0"
-    color="primary"
-    mat-raised-button>  <!-- если пустой текст - кнопка "Сохранить" будет недоступна -->
-    Сохранить
+  <div class="col-md-5 col-12">
+    <button
+      (click)="onConfirm()" [disabled]="inputTitle.value.trim().length==0"
+      color="primary"
+      mat-raised-button>  <!-- если пустой текст - кнопка "Сохранить" будет недоступна -->
+      Сохранить
+    </button>
+
+
+    <button (click)="onCancel()" mat-raised-button>Отмена</button>
+
+  </div>
+
+  <!--  возможные операции над задачей-->
+  <div  class="col-md-7 col-12 text-right">
+  <button mat-button
+          (click)="active()"
+          *ngIf="task.completed; else finish"
+  >
+    Активировать
+  </button>
+  <ng-template #finish>
+    <button mat-button
+            (click)="complete()"
+    >
+      Завершить
+    </button>
+  </ng-template>
+
+  <button mat-button
+          (click)="delete()"
+          class="red"
+  >
+    Удалить задачу
   </button>
 
-
-  <button (click)="onCancel()" mat-raised-button>Отмена</button>
-
+  </div>
 
 </mat-dialog-actions>
