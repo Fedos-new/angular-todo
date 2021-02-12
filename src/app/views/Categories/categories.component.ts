@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {DataHandlerService} from '../../service/data-handler.service';
 import {Category} from '../../model/Category';
+import {MatDialog} from '@angular/material/dialog';
+import { EditCategoryDialogComponent } from 'src/app/dialog/edit-category-dialog/edit-category-dialog.component';
 
 @Component({
   selector: 'app-categories',
@@ -17,8 +19,22 @@ export class CategoriesComponent implements OnInit {
   selectCategory = new EventEmitter<Category>();
   @Input()
   selectedCategory: Category;
+  // удалили категорию
+  @Output()
+  deleteCategory = new EventEmitter<Category>();
 
-  constructor(private dataHandler: DataHandlerService) {
+  // изменили категорию
+  @Output()
+  updateCategory = new EventEmitter<Category>();
+
+  // для отображения иконки редактирования при наведении на категорию
+  indexMouseMove: number;
+
+
+  constructor(
+    private dataHandler: DataHandlerService,
+    private dialog: MatDialog // внедряем MatDialog, чтобы работать с д. окнами
+    ) {
   }
 
   // метод вызывается автоматически после инициализации компонента
@@ -38,5 +54,35 @@ export class CategoriesComponent implements OnInit {
 
     // вызываем внешний обработчик и передаем туда выбранную категорию
     this.selectCategory.emit(this.selectedCategory);
+  }
+  // сохраняет индекс записи категории, над который в данный момент проходит мышка (и там отображается иконка редактирования)
+  private showEditIcon(index: number): void {
+    this.indexMouseMove = index;
+
+  }
+
+  // диалоговое окно для редактирования категории
+  private openEditDialog(category: Category): void {
+    const dialogRef = this.dialog.open(EditCategoryDialogComponent, {
+      data: [category.title, 'Редактирование категории'],
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result === 'delete') { // нажали удалить
+
+        this.deleteCategory.emit(category); // вызываем внешний обработчик
+
+        return;
+      }
+
+      if (typeof (result) === 'string') { // нажали сохранить
+        category.title = result as string;
+
+        this.updateCategory.emit(category); // вызываем внешний обработчик
+        return;
+      }
+    });
   }
 }
