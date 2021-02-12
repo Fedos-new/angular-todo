@@ -24,12 +24,11 @@ export class AppComponent implements OnInit {
     this.dataHandler.getAllTasks().subscribe(tasks => this.tasks = tasks);
     this.dataHandler.getAllCategories().subscribe(categories => this.categories = categories);
     this.onSelectCategory(null);
-    this.onUpdateTask(null);
-    this.onDeleteTask(null);
   }
 
   // изменение категории
   onSelectCategory(category: Category): void {
+
     this.selectedCategory = category;
 
     this.dataHandler.searchTasks(

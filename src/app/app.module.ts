@@ -22,8 +22,10 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { TaskDatePipe } from './pipe/task-date.pipe';
 
 
+
 import {registerLocaleData} from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 registerLocaleData(localeRu);
 
@@ -52,7 +54,8 @@ registerLocaleData(localeRu);
     MatOptionModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatCheckboxModule,
   ],
   providers: [],
   entryComponents: [

@@ -7,6 +7,8 @@ import {MatSort} from '@angular/material/sort';
 import {Input} from '@angular/core';
 import {EditTaskDialogComponent} from '../../dialog/edit-task-dialog/edit-task-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
+import {Category} from '../../model/Category';
 
 
 @Component({
@@ -18,7 +20,7 @@ export class TasksComponent implements OnInit {
 
 
   // поля для таблицы (те, что отображают данные из задачи - должны совпадать с названиями переменных класса)
-  private displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category'];
+  private displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category', 'operations', 'select'];
   private dataSource: MatTableDataSource<Task>; // контейнер - источник данных для таблицы
 
   // ссылки на компоненты таблицы
@@ -30,6 +32,8 @@ export class TasksComponent implements OnInit {
   updateTask = new EventEmitter<Task>();
   @Output()
   deleteTask = new EventEmitter<Task>();
+  @Output()
+  selectCategory = new EventEmitter<Category>(); // нажали на категорию из списка задач
 
   @Input('tasks')
   private set setTasks(tasks: Task[]) { // присваем значение только через @Input
@@ -137,4 +141,24 @@ export class TasksComponent implements OnInit {
     });
   }
 
+  openDeleteDialog(task: Task): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: '500px',
+      data: {dialogTitle: 'Подтвердите действие', message: `Вы действительно хотите удалить задачу: "${task.title}"?`},
+      autoFocus: false});
+    dialogRef.afterClosed().subscribe( result => {
+      if (result) {
+        this.deleteTask.emit(task);
+      }
+    });
+  }
+
+  onToggleStatus(task: Task): void {
+    task.completed = !task.completed;
+    this.updateTask.emit(task);
+  }
+
+  onSelectCategory(category: Category): void {
+    this.selectCategory.emit(category);
+  }
 }
