@@ -88,7 +88,13 @@
               (updateTask)="onUpdateTask($event)"
               (deleteTask)="onDeleteTask($event)"
               (selectCategory)="onSelectCategory($event)"
+
+              (filterByTitle)="onSearchTasks($event)"
+              (filterByStatus)="onFilterTasksByStatus($event)"
+              (filterByPriority)="onFilterTasksByPriority($event)"
+
               [tasks]="tasks"
+              [priorities]="priorities"
 
             ></app-tasks>
           </div>
