@@ -46,7 +46,7 @@
             class="col-date"
             mat-cell>
 
-          {{task.date ? (task.date | date: "short") : "Без даты"}}
+          {{task.date | taskDate}}
 
         </td>
       </ng-container>

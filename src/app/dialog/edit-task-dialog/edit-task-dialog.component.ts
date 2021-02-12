@@ -20,6 +20,7 @@ export class EditTaskDialogComponent implements OnInit {
   tmpTitle: string;
   tmpCategory: Category;
   tmpPriority: Priority;
+  tmpDate: Date;
 
   constructor(
     private dialogRef: MatDialogRef<EditTaskDialogComponent>, // для возможности работы с д.окном
@@ -36,6 +37,7 @@ export class EditTaskDialogComponent implements OnInit {
     this.tmpTitle = this.task.title;
     this.tmpCategory = this.task.category;
     this.tmpPriority = this.task.priority;
+    this.tmpDate = this.task.date;
 
     this.dataHandler.getAllCategories().subscribe(c => this.categories = c);
     this.dataHandler.getAllPriorities().subscribe(p => this.priorities = p);
@@ -50,6 +52,7 @@ export class EditTaskDialogComponent implements OnInit {
     this.task.title = this.tmpTitle;
     this.task.category = this.tmpCategory;
     this.task.priority = this.tmpPriority;
+    this.task.date = this.tmpDate;
     // закрываем окно и перадаем измененную/новую задачу в компонент откуда вызван д.окно
     this.dialogRef.close(this.task);
 
