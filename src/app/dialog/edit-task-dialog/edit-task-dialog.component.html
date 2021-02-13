@@ -104,19 +104,21 @@
   <div  class="col-md-7 col-12 text-right">
   <button mat-button
           (click)="active()"
-          *ngIf="task.completed; else finish"
+          *ngIf="task.completed && canActivateDesactivate(); else finish"
   >
     Активировать
   </button>
   <ng-template #finish>
     <button mat-button
             (click)="complete()"
+            *ngIf="!task.completed && canActivateDesactivate()"
     >
       Завершить
     </button>
   </ng-template>
 
   <button mat-button
+          *ngIf="canDelete()"
           (click)="delete()"
           class="red"
   >

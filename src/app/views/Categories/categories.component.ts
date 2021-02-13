@@ -2,7 +2,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {DataHandlerService} from '../../service/data-handler.service';
 import {Category} from '../../model/Category';
 import {MatDialog} from '@angular/material/dialog';
-import { EditCategoryDialogComponent } from 'src/app/dialog/edit-category-dialog/edit-category-dialog.component';
+import {EditCategoryDialogComponent} from 'src/app/dialog/edit-category-dialog/edit-category-dialog.component';
+import {OperType} from '../../dialog/OperType';
 
 @Component({
   selector: 'app-categories',
@@ -26,6 +27,9 @@ export class CategoriesComponent implements OnInit {
   // изменили категорию
   @Output()
   updateCategory = new EventEmitter<Category>();
+  // добавили категорию
+  @Output()
+  addCategory = new EventEmitter<string>(); // передаем только название новой категории
 
   // для отображения иконки редактирования при наведении на категорию
   indexMouseMove: number;
@@ -34,7 +38,7 @@ export class CategoriesComponent implements OnInit {
   constructor(
     private dataHandler: DataHandlerService,
     private dialog: MatDialog // внедряем MatDialog, чтобы работать с д. окнами
-    ) {
+  ) {
   }
 
   // метод вызывается автоматически после инициализации компонента
@@ -55,6 +59,7 @@ export class CategoriesComponent implements OnInit {
     // вызываем внешний обработчик и передаем туда выбранную категорию
     this.selectCategory.emit(this.selectedCategory);
   }
+
   // сохраняет индекс записи категории, над который в данный момент проходит мышка (и там отображается иконка редактирования)
   private showEditIcon(index: number): void {
     this.indexMouseMove = index;
@@ -82,6 +87,18 @@ export class CategoriesComponent implements OnInit {
 
         this.updateCategory.emit(category); // вызываем внешний обработчик
         return;
+      }
+    });
+  }
+
+  openAddDialog(): void {
+    const dialogRef = this.dialog.open(EditCategoryDialogComponent, {
+      data: ['', 'Добавление категории', OperType.ADD],
+      width: '400px'});
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.addCategory.emit(result as string); // вызываем внешний обработчик
       }
     });
   }

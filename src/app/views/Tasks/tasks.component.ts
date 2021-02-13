@@ -10,6 +10,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 import {Category} from '../../model/Category';
 import {Priority} from '../../model/Priority';
+import {OperType} from '../../dialog/OperType';
 
 
 @Component({
@@ -46,6 +47,12 @@ export class TasksComponent implements OnInit {
   @Output()
   filterByPriority = new EventEmitter<Priority>();
 
+  @Output()
+  addTask = new EventEmitter<Task>();
+
+  @Input()
+  selectedCategory: Category;
+
   @Input('tasks')
   private set setTasks(tasks: Task[]) { // присваем значение только через @Input
     this.tasks = tasks;
@@ -76,14 +83,6 @@ export class TasksComponent implements OnInit {
     // датасорс обязательно нужно создавать для таблицы, в него присваивается любой источник (БД, массивы, JSON и пр.)
     this.dataSource = new MatTableDataSource();
     this.fillTable(); // заполняем таблицу служебныим данными(задачи) и всеми методанными
-  }
-
-  // ngAfterViewInit(): void {
-  //   this.addTableObjects();
-  // }
-
-  toggleClassCompleted(task: Task): void {
-    task.completed = !task.completed;
   }
 
   // в зависимости от статуса задачи - вернуть цвет названия
@@ -211,6 +210,22 @@ export class TasksComponent implements OnInit {
       this.selectedPriorityFilter = value;
       this.filterByPriority.emit(this.selectedPriorityFilter);
     }
+  }
+  // диалоговое окно для добавления задачи
+  openAddTaskDialog(): void {
+
+    // то же самое, что и при редактировании, но только передаем пустой объект Task
+    const task = new Task(null, '', false, null, this.selectedCategory);
+
+    const dialogRef = this.dialog.open(EditTaskDialogComponent, {
+      data: [task, 'Добавление задачи', OperType.ADD]});
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) { // если нажали ОК и есть результат
+        this.addTask.emit(task);
+      }
+    });
+
   }
 
 }

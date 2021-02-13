@@ -40,41 +40,20 @@ export class AppComponent implements OnInit {
 
     this.selectedCategory = category;
 
-    this.dataHandler.searchTasks(
-      this.selectedCategory,
-      null,
-      null,
-      null
-    ).subscribe(tasks => {
-      this.tasks = tasks;
-    });
+    this.updateTasks();
   }
 
   onUpdateTask(task: Task): void {
 
-    this.dataHandler.updateTask(task).subscribe(() => {
-      this.dataHandler.searchTasks(
-        this.selectedCategory,
-        null,
-        null,
-        null,
-      ).subscribe(tasks => {
-        this.tasks = tasks;
-      });
+    this.dataHandler.updateTask(task).subscribe(cat => {
+      this.updateTasks();
     });
   }
 
   onDeleteTask(task: Task): void {
 
-    this.dataHandler.deleteTask(task.id).subscribe(() => {
-      this.dataHandler.searchTasks(
-        this.selectedCategory,
-        null,
-        null,
-        null,
-      ).subscribe(tasks => {
-        this.tasks = tasks;
-      });
+    this.dataHandler.deleteTask(task.id).subscribe(cat => {
+      this.updateTasks();
     });
   }
   // удаление категории
@@ -121,6 +100,25 @@ export class AppComponent implements OnInit {
     });
   }
 
+  // добавление задачи
+  onAddTask(task: Task): void {
+
+    this.dataHandler.addTask(task).subscribe(result => {
+
+      this.updateTasks();
+
+    });
+
+  }
+
+  // добавление категории
+  onAddCategory(title: string): void {
+    this.dataHandler.addCategory(title).subscribe(() => this.updateCategories());
+  }
+
+  updateCategories(): void {
+    this.dataHandler.getAllCategories().subscribe(categories => this.categories = categories);
+  }
 }
 
 

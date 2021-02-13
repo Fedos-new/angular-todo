@@ -5,6 +5,7 @@ import {Task} from 'src/app/model/Task';
 import {DataHandlerService} from '../../service/data-handler.service';
 import {Priority} from '../../model/Priority';
 import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
+import { OperType } from '../OperType';
 
 @Component({
   selector: 'app-edit-task-dialog',
@@ -21,6 +22,7 @@ export class EditTaskDialogComponent implements OnInit {
   tmpCategory: Category;
   tmpPriority: Priority;
   tmpDate: Date;
+  operType: OperType;
 
   constructor(
     private dialogRef: MatDialogRef<EditTaskDialogComponent>, // для возможности работы с д.окном
@@ -83,4 +85,11 @@ export class EditTaskDialogComponent implements OnInit {
     this.dialogRef.close( 'complete');
   }
 
+  canDelete(): boolean {
+    return this.operType === OperType.EDIT;
+  }
+
+  canActivateDesactivate(): boolean {
+    return this.operType === OperType.EDIT;
+  }
 }
