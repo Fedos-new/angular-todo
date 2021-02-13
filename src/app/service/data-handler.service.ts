@@ -65,5 +65,8 @@ export class DataHandlerService {
   addTask(task: Task): Observable<Task> {
     return this.taskDaoArray.add(task);
   }
+  searchCategories(title: string): Observable<Category[]> {
+    return this.categoryDaoArray.search(title);
+  }
 
 }
