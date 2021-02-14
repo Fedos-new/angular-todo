@@ -44,3 +44,11 @@ button {
 .gray {
   color: #8f8f8f;
 }
+
+.main-panel> .content {
+  margin-top: 30px !important;
+}
+
+app-header, .settings {
+  width: 100%;
+}
