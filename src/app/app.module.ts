@@ -30,7 +30,8 @@ import { EditCategoryDialogComponent } from './dialog/edit-category-dialog/edit-
 import { FooterComponent } from './views/footer/footer.component';
 import {AboutDialogComponent} from './dialog/about/about-dialog.component';
 import { HeaderComponent } from './views/header/header.component';
-import {StatComponent} from './views/stat/stat.component';
+import { StatComponent } from './views/stat/stat.component';
+import { StatCardComponent } from './views/stat/stat-card/stat-card.component';
 
 registerLocaleData(localeRu);
 
@@ -47,6 +48,7 @@ registerLocaleData(localeRu);
     AboutDialogComponent,
     HeaderComponent,
     StatComponent,
+    StatCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,7 +72,9 @@ registerLocaleData(localeRu);
   providers: [],
   entryComponents: [
     EditTaskDialogComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    EditCategoryDialogComponent,
+    AboutDialogComponent
   ],
   bootstrap: [AppComponent]
 })

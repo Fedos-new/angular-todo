@@ -23,27 +23,31 @@ export class TaskDAOArray implements TaskDAO{
   }
 
   get(id: number): Observable<Task> {
-    return of(TestData.tasks.find(todo => todo.id === id));
+    return undefined;
   }
 
   getAll(): Observable<Task[]> {
     return of(TestData.tasks); // of - спец.метод, который оборачивает в контейнер Observable
   }
 
+  // кол-во завершенных задач в заданной категории (если category === null, то для всех категорий)
   getCompletedCountInCategory(category: Category): Observable<number> {
-    return undefined;
+    return of(this.searchTasks(category, null, true, null).length);
   }
 
-  getTotalCount(): Observable<number> {
-    return undefined;
-  }
-
-  getTotalCountInCategory(category: Category): Observable<number> {
-    return undefined;
-  }
-
+  // кол-во незавершенных задач в заданной категории (если category === null, то для всех категорий)
   getUncompletedCountInCategory(category: Category): Observable<number> {
-    return undefined;
+    return of(this.searchTasks(category, null, false, null).length);
+  }
+
+  // кол-во всех задач в заданной категории (если category === null, то для всех категорий)
+  getTotalCountInCategory(category: Category): Observable<number> {
+    return of(this.searchTasks(category, null, null, null).length);
+  }
+
+  // кол-во всех задач в общем
+  getTotalCount(): Observable<number> {
+    return of(TestData.tasks.length);
   }
 
   search(category: Category, searchText: string, status: boolean, priority: Priority): Observable<Task[]> {

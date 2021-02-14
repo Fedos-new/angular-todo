@@ -35,21 +35,26 @@ export class DataHandlerService {
   getAllCategories(): Observable<Category[]> {
     return this.categoryDaoArray.getAll();
   }
+
   getAllPriorities(): Observable<Priority[]> {
     return this.priorityDaoArray.getAll();
   }
 
+
   updateTask(task: Task): Observable<Task> {
     return this.taskDaoArray.update(task);
   }
-  deleteTask(id: number): Observable<Task> {
-    return this.taskDaoArray.delete(id);
-  }
+
 
   // поиск задач по параметрам
   searchTasks(category: Category, searchText: string, status: boolean, priority: Priority): Observable<Task[]> {
     return this.taskDaoArray.search(category, searchText, status, priority);
   }
+
+  deleteTask(id: number): Observable<Task> {
+    return this.taskDaoArray.delete(id);
+  }
+
 
   updateCategory(category: Category): Observable<Category> {
     return this.categoryDaoArray.update(category);
@@ -58,15 +63,37 @@ export class DataHandlerService {
   deleteCategory(id: number): Observable<Category> {
     return this.categoryDaoArray.delete(id);
   }
-  addCategory(title: string): Observable<Category> {
-    return this.categoryDaoArray.add(new Category(null, title));
-  }
 
   addTask(task: Task): Observable<Task> {
     return this.taskDaoArray.add(task);
   }
+
+  addCategory(title: string): Observable<Category> {
+    return this.categoryDaoArray.add(new Category(null, title));
+  }
+
+
   searchCategories(title: string): Observable<Category[]> {
     return this.categoryDaoArray.search(title);
   }
+
+  // статистика
+
+  getCompletedCountInCategory(category: Category): Observable<number> {
+    return this.taskDaoArray.getCompletedCountInCategory(category);
+  }
+
+  getUncompletedTotalCount(): Observable<number> {
+    return this.taskDaoArray.getUncompletedCountInCategory(null);
+  }
+
+  getUncompletedCountInCategory(category: Category): Observable<number> {
+    return this.taskDaoArray.getUncompletedCountInCategory(category);
+  }
+
+  getTotalCountInCategory(category: Category): Observable<number> {
+    return this.taskDaoArray.getTotalCountInCategory(category);
+  }
+
 
 }
